@@ -8,7 +8,6 @@ package dao;
  *
  * @author User
  */
-public class PaisDAO {
-    
+public class GeneroDAO {
     
 }

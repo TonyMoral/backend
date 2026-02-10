@@ -46,23 +46,14 @@ public class FilmografiaDAO {
             //Recorrer cada fila de la consulta
             while (rs.next()) {
 
-                Filmografia f = new Filmografia();
-
-                f.setId(rs.getInt("id"));
-                f.setTitulo(rs.getString("titulo"));
-                f.setFecha_estreno(rs.getDate("fecha_estreno"));
-                f.setSinopsis(rs.getString("sinopsis"));
-                f.setPais_id(rs.getInt("pais_id"));
-                f.setClasificacion_id(rs.getInt("clasificacion_id"));
-
-                System.out.println(f.toString());
+                mostrarFilmografia(rs);
 
             }
         } catch (SQLException ex) {
             System.getLogger(FilmografiaDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         } finally {
             //Cerrar ResultSet y PreparedStatement
-            cerrarEstados(rs,statement);
+            cerrarEstados(rs, statement);
         }
 
     }
@@ -91,17 +82,7 @@ public class FilmografiaDAO {
 
                 idEncontrado = true;
 
-                Filmografia f = new Filmografia();
-
-                f.setId(rs.getInt("id"));
-                f.setTitulo(rs.getString("titulo"));
-                f.setFecha_estreno(rs.getDate("fecha_estreno"));
-                f.setSinopsis(rs.getString("sinopsis"));
-                f.setPais_id(rs.getInt("pais_id"));
-                f.setClasificacion_id(rs.getInt("clasificacion_id"));
-
-                System.out.println("La pelicula con id: " + f.getId() + " es: ");
-                System.out.println(f.toString());
+                mostrarFilmografia(rs);
 
             }
 
@@ -120,53 +101,63 @@ public class FilmografiaDAO {
 
     //Metodo insertar
     public void insertar(String titulo, Date fecha_estreno, String sinopsis, int pais_id, int clasificacion_id) throws SQLException {
-        //Preparar la consulta SQL  
-        PreparedStatement statement = conexion.prepareStatement(INSERT);
-        statement.setString(1, titulo);
-        statement.setDate(2, fecha_estreno);
-        statement.setString(3, sinopsis);
-        statement.setInt(4, pais_id);
-        statement.setInt(5, clasificacion_id);
+        PreparedStatement statement = null;
+        try {
+            //Preparar la consulta SQL  
+            statement = conexion.prepareStatement(INSERT);
+            statement.setString(1, titulo);
+            statement.setDate(2, fecha_estreno);
+            statement.setString(3, sinopsis);
+            statement.setInt(4, pais_id);
+            statement.setInt(5, clasificacion_id);
 
-        //Ejecutar la consulta y actualiza la tabla
-        statement.executeUpdate();
-
-        //Cerrar ResultSet y PreparedStatement
-        statement.close();
-
+            //Ejecutar la consulta y actualiza la tabla
+            statement.executeUpdate();
+        } finally {
+            //Cerrar ResultSet y PreparedStatement
+            if (statement != null) {
+                statement.close();
+            }
+        }
     }
 
     //Metodo actualizar
     public void actualizar(String titulo, Date fecha_estreno, String sinopsis, int pais_id, int clasificacion_id, int id) throws SQLException {
-        //Preparar la consulta SQL  
-        PreparedStatement statement = conexion.prepareStatement(UPDATE);
-        statement.setString(1, titulo);
-        statement.setDate(2, fecha_estreno);
-        statement.setString(3, sinopsis);
-        statement.setInt(4, pais_id);
-        statement.setInt(5, clasificacion_id);
-        statement.setInt(6, id);
+        PreparedStatement statement = null;
+        try {
+            //Preparar la consulta SQL  
+            statement = conexion.prepareStatement(UPDATE);
+            statement.setString(1, titulo);
+            statement.setDate(2, fecha_estreno);
+            statement.setString(3, sinopsis);
+            statement.setInt(4, pais_id);
+            statement.setInt(5, clasificacion_id);
+            statement.setInt(6, id);
 
-        //Ejecutar la consulta y actualiza la tabla
-        statement.executeUpdate();
-
-        //Cerrar ResultSet y PreparedStatement
-        statement.close();
-
+            //Ejecutar la consulta y actualiza la tabla
+            statement.executeUpdate();
+        } finally {
+            //Si no es nulo cerramos el statement
+            if (statement != null) {
+                statement.close();
+            }
+        }
     }
 
-    //Metodo actualizar
+    //Metodo  eliminar
     public void eliminar(int id) throws SQLException {
-        //Preparar la consulta SQL  
-        PreparedStatement statement = conexion.prepareStatement(DELETE);
-        statement.setInt(1, id);
+        PreparedStatement statement = null;
+        try {
+            //Preparar la consulta SQL  
+            statement = conexion.prepareStatement(DELETE);
+            statement.setInt(1, id);
 
-        //Ejecutar la consulta y actualiza la tabla
-        statement.executeUpdate();
-
-        //Cerrar ResultSet y PreparedStatement
-        statement.close();
-
+            //Ejecutar la consulta y actualiza la tabla
+            statement.executeUpdate();
+        } finally {
+            //Si no es nulo cerramos el statement
+            statement.close();
+        }
     }
 
     private void cerrarEstados(ResultSet rs, PreparedStatement statement) throws SQLException {
@@ -176,7 +167,7 @@ public class FilmografiaDAO {
                 rs.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw e;
         }
         //Si no es nulo cerramos el statement
         try {
@@ -184,7 +175,24 @@ public class FilmografiaDAO {
                 statement.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    private void mostrarFilmografia(ResultSet rs) {
+        try {
+            Filmografia f = new Filmografia();
+
+            f.setId(rs.getInt("id"));
+            f.setTitulo(rs.getString("titulo"));
+            f.setFecha_estreno(rs.getDate("fecha_estreno"));
+            f.setSinopsis(rs.getString("sinopsis"));
+            f.setPais_id(rs.getInt("pais_id"));
+            f.setClasificacion_id(rs.getInt("clasificacion_id"));
+
+            System.out.println(f.toString());
+        } catch (SQLException ex) {
+            System.getLogger(FilmografiaDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
     }
 }

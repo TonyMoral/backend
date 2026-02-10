@@ -28,20 +28,20 @@ public class Main {
 
         
         //Llamar al metodo listar uno
-       // filmografiaDAO.listOne();
+        //filmografiaDAO.listOne();
        
        //LLamar al metodo para insertar
        //filmografiaDAO.insertar("La comunidad del anillo", java.sql.Date.valueOf("2001-05-10"), "Unos hobbits se van de paseo", 1, 4);
         
        //Llamar al metodo para actualizar
-      //filmografiaDAO.actualizar("Las dos torres",  java.sql.Date.valueOf("2002-07-10"), "Los hobbits siguen de excursion", 2, 3, 9);
+      //filmografiaDAO.actualizar("Las dos torres",  java.sql.Date.valueOf("2002-07-10"), "Los hobbits siguen de excursion por ahi", 2, 3, 12);
        
        //Llamar al metodo para eliminar
        //filmografiaDAO.eliminar(8);
 
         //Llamar al metodo listar todo
         filmografiaDAO.listAll();      
-        generoDAO.listAll();
+        //generoDAO.listAll();
    
         //Cerrar conexion
         DatabaseManager.desconectar();

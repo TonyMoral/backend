@@ -18,6 +18,11 @@ public class Genero {
         this.id = id;
         this.nombre = nombre;
     }
+    public Genero(String nombre) {
+        this.nombre = nombre;
+    }
+    public Genero() {
+    }
     
      //Getter and Setter
     public int getId() {

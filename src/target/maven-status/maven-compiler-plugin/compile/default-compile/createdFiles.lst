@@ -1,6 +1,7 @@
 dao\GeneroDAO.class
 models\Film_genero.class
 models\Reparto.class
+dao\DAO.class
 models\Genero.class
 models\Suscripcion.class
 models\Pais.class

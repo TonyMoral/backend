@@ -28,7 +28,13 @@ public class Filmografia {
         this.pais_id = pais_id;
         this.clasificacion_id = clasificacion_id;
     }
-
+public Filmografia(String titulo, Date fecha_estreno, String sinopsis, int pais_id, int clasificacion_id) {
+        this.titulo = titulo;
+        this.fecha_estreno = fecha_estreno;
+        this.sinopsis = sinopsis;
+        this.pais_id = pais_id;
+        this.clasificacion_id = clasificacion_id;
+    }
     public Filmografia() {
     }
 
